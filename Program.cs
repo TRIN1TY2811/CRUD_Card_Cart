@@ -36,7 +36,11 @@ namespace CRUD_Card_Cart
                     if (cardlist.Count == 0)
                     {
                         Console.WriteLine("Your Card list is empty!");
-                        cardData.Add(cardlist);
+                        Console.Write("Enter Card ID: ");
+                        int id = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Enter Card Name: ");
+                        string name = Console.ReadLine();
+                        Console.WriteLine(cardData.Add(cardlist, id, name));
                     }
                     else
                     {
@@ -55,17 +59,41 @@ namespace CRUD_Card_Cart
                         switch (ChoiceCard)
                         {
                             case 1:
-                                cardData.Add(cardlist);
+                                Console.Write("Enter Card ID: ");
+                                int newId = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter Card Name: ");
+                                string newName = Console.ReadLine();
+                                Console.WriteLine(cardData.Add(cardlist, newId, newName));
                                 break;
+
                             case 2:
-                                cardData.Delete(cardlist);
+                                Console.WriteLine("Select the number of the card you want to delete: ");
+                                for (int i = 0; i < cardlist.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1}. Name: {cardlist[i].Name}, ID: {cardlist[i].ID}");
+                                }
+                                int deleteChoice = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(cardData.Delete(cardlist, deleteChoice));
                                 break;
+
                             case 3:
-                                cardData.Update(cardlist);
+                                Console.WriteLine("Select the number of the card you want to update: ");
+                                for (int i = 0; i < cardlist.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1}. Name: {cardlist[i].Name}, ID: {cardlist[i].ID}");
+                                }
+                                int updateChoice = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter new Name: ");
+                                string updatedName = Console.ReadLine();
+                                Console.Write("Enter new ID: ");
+                                int updatedID = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(cardData.Update(cardlist, updateChoice, updatedName, updatedID));
                                 break;
+
                             case 4:
                                 SystemRun = false;
                                 break;
+
                             default:
                                 Console.WriteLine("Invalid Input!");
                                 break;
@@ -84,7 +112,13 @@ namespace CRUD_Card_Cart
                     if (cartlist.Count == 0)
                     {
                         Console.WriteLine("Your Cart list is empty!");
-                        cartData.Add(cartlist);
+                        Console.Write("Enter Product: ");
+                        string name = Console.ReadLine();
+                        Console.Write("Enter Price: ");
+                        decimal price = Convert.ToDecimal(Console.ReadLine());
+                        Console.Write("Enter Quantity: ");
+                        int quantity = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine(cartData.Add(cartlist, name, price, quantity));
                     }
                     else
                     {
@@ -105,23 +139,53 @@ namespace CRUD_Card_Cart
                         switch (ChoiceCart)
                         {
                             case 1:
-                                cartData.Add(cartlist);
+                                Console.Write("Enter Product: ");
+                                string newName = Console.ReadLine();
+                                Console.Write("Enter Price: ");
+                                decimal newPrice = Convert.ToDecimal(Console.ReadLine());
+                                Console.Write("Enter Quantity: ");
+                                int newQuantity = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(cartData.Add(cartlist, newName, newPrice, newQuantity));
                                 break;
+
                             case 2:
-                                cartData.Delete(cartlist);
+                                Console.WriteLine("Select the number of the product you want to delete: ");
+                                for (int i = 0; i < cartlist.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1}. Name: {cartlist[i].Name}, Price: {cartlist[i].Price}, Quantity: {cartlist[i].Quantity}");
+                                }
+                                int deleteChoice = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(cartData.Delete(cartlist, deleteChoice));
                                 break;
+
                             case 3:
-                                cartData.Update(cartlist);
+                                Console.WriteLine("Select the number of the product you want to update: ");
+                                for (int i = 0; i < cartlist.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1}. Name: {cartlist[i].Name}, Price: {cartlist[i].Price}, Quantity: {cartlist[i].Quantity}");
+                                }
+                                int updateChoice = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter new Name: ");
+                                string updatedName = Console.ReadLine();
+                                Console.Write("Enter new Price: ");
+                                decimal updatedPrice = Convert.ToDecimal(Console.ReadLine());
+                                Console.Write("Enter new Quantity: ");
+                                int updatedQuantity = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(cartData.Update(cartlist, updateChoice, updatedName, updatedPrice, updatedQuantity));
                                 break;
+
                             case 4:
-                                cartService.CheckTotal(cartlist);
+                                Console.WriteLine(cartService.CheckTotal(cartlist));
                                 break;
+
                             case 5:
-                                cartService.CheckDiscount(cartlist);
+                                Console.WriteLine(cartService.CheckDiscount(cartlist));
                                 break;
+
                             case 6:
                                 SystemRun2 = false;
                                 break;
+
                             default:
                                 Console.WriteLine("Invalid Input!");
                                 break;
