@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Model_Layer;
+using System.Text.Json;
 
 namespace Data_Logic_Layer
 {
-    public class CardData
+    public class Data : IDataService
     {
+        //Card Data
+        public List<Models.Cards> cardlist { get; set; } = new List<Models.Cards>
+{
+    new Models.Cards { Name = "James", ID = 1234 },
+    new Models.Cards { Name = "John", ID = 12345 }
+};
 
-        public string Add(List<Models.Cards> cardlist, int id, string name)
+        public string AddCard(int id, string name)
         {
             cardlist.Add(new Models.Cards { Name = name, ID = id });
             return "Card added successfully!";
         }
 
-        public string Delete(List<Models.Cards> cardlist, int choice)
+        public string DeleteCard(int choice)
         {
             if (choice < 1 || choice > cardlist.Count)
             {
@@ -27,7 +34,7 @@ namespace Data_Logic_Layer
             }
         }
 
-        public string Update(List<Models.Cards> cardlist, int choice, string newName, int newID)
+        public string UpdateCard(int choice, string newName, int newID)
         {
             if (choice < 1 || choice > cardlist.Count)
             {
@@ -41,17 +48,20 @@ namespace Data_Logic_Layer
                 return "Card updated successfully!";
             }
         }
-    }
+        //Cart Data
+        public List<Models.Carts> cartlist { get; set; } = new List<Models.Carts>
+{
+    new Models.Carts { Name = "Apple", Price = 15, Quantity = 5 },
+    new Models.Carts { Name = "Chocolate", Price = 50, Quantity = 10 }
+};
 
-    public class CartData
-    {
-        public string Add(List<Models.Carts> cartlist, string name, decimal price, int quantity)
+        public string AddCart(string name, decimal price, int quantity)
         {
             cartlist.Add(new Models.Carts { Name = name, Price = price, Quantity = quantity });
             return "Product added successfully!";
         }
 
-        public string Delete(List<Models.Carts> cartlist, int choice)
+        public string DeleteCart(int choice)
         {
             if (choice < 1 || choice > cartlist.Count)
             {
@@ -65,7 +75,7 @@ namespace Data_Logic_Layer
             }
         }
 
-        public string Update(List<Models.Carts> cartlist, int choice, string newName, decimal newPrice, int newQuantity)
+        public string UpdateCart(int choice, string newName, decimal newPrice, int newQuantity)
         {
             if (choice < 1 || choice > cartlist.Count)
             {
@@ -81,4 +91,6 @@ namespace Data_Logic_Layer
             }
         }
     }
+
+
 }

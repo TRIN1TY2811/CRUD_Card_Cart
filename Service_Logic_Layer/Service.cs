@@ -5,6 +5,7 @@ using Model_Layer;
 namespace Service_Logic_Layer
 {
     public class CartService
+
     {
         public string CheckTotal(List<Models.Carts> cartlist)
         {
