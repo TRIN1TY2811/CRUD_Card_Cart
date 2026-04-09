@@ -8,6 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data_Logic_Layer\**" />
+    <Compile Remove="Model_Layer\**" />
+    <Compile Remove="Service_Logic_Layer\**" />
+    <EmbeddedResource Remove="Data_Logic_Layer\**" />
+    <EmbeddedResource Remove="Model_Layer\**" />
+    <EmbeddedResource Remove="Service_Logic_Layer\**" />
+    <None Remove="Data_Logic_Layer\**" />
+    <None Remove="Model_Layer\**" />
+    <None Remove="Service_Logic_Layer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="Data_Logic_Layer\Data_Logic_Layer.csproj" />
     <ProjectReference Include="Model_Layer\Model_Layer.csproj" />
     <ProjectReference Include="Service_Logic_Layer\Service_Logic_Layer.csproj" />
