@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Data_Logic_Layer;
 using Microsoft.Data.SqlClient;
 using Model_Layer;
@@ -8,7 +9,6 @@ public class SqlData : IDataService
     string connectionString =
     "Data Source=localhost\\SQLEXPRESS01;Initial Catalog=CRUD_Cart_Card_DB;Integrated Security=True;TrustServerCertificate=True;";
 
-    // card
     public List<Models.Cards> cardlist => GetCards();
     public List<Models.Carts> cartlist => GetCarts();
 
@@ -35,65 +35,6 @@ public class SqlData : IDataService
         return list;
     }
 
-    public string AddCard(int id, string name)
-    {
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            SqlCommand cmd = new SqlCommand("INSERT INTO Cards (CardId, Name) VALUES (@id,@name)", conn);
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@name", name ?? "");
-
-            conn.Open();
-            cmd.ExecuteNonQuery();
-        }
-
-        return "Card added successfully!";
-    }
-
-    public string DeleteCard(int choice)
-    {
-        var list = GetCards();
-        if (choice < 1 || choice > list.Count) return "Invalid selection.";
-
-        int id = list[choice - 1].ID;
-
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            SqlCommand cmd = new SqlCommand("DELETE FROM Cards WHERE CardId=@id", conn);
-            cmd.Parameters.AddWithValue("@id", id);
-
-            conn.Open();
-            cmd.ExecuteNonQuery();
-        }
-
-        return "Card deleted successfully!";
-    }
-
-    public string UpdateCard(int choice, string name, int id)
-    {
-        var list = GetCards();
-        if (choice < 1 || choice > list.Count) return "Invalid selection.";
-
-        int oldId = list[choice - 1].ID;
-
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            SqlCommand cmd = new SqlCommand(
-                "UPDATE Cards SET CardId=@newId, Name=@name WHERE CardId=@oldId", conn);
-
-            cmd.Parameters.AddWithValue("@newId", id);
-            cmd.Parameters.AddWithValue("@name", name ?? "");
-            cmd.Parameters.AddWithValue("@oldId", oldId);
-
-            conn.Open();
-            cmd.ExecuteNonQuery();
-        }
-
-        return "Card updated successfully!";
-    }
-
-    // cart
-
     public List<Models.Carts> GetCarts()
     {
         var list = new List<Models.Carts>();
@@ -118,7 +59,64 @@ public class SqlData : IDataService
         return list;
     }
 
-    public string AddCart(string name, decimal price, int quantity)
+    public bool AddCard(int id, string name)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Cards (CardId, Name) VALUES (@id,@name)", conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@name", name ?? "");
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+        return true;
+    }
+
+    public bool DeleteCard(int choice)
+    {
+        var list = GetCards();
+        if (choice < 1 || choice > list.Count) return false;
+
+        int id = list[choice - 1].ID;
+
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM Cards WHERE CardId=@id", conn);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+        return true;
+    }
+
+    public bool UpdateCard(int choice, string name, int id)
+    {
+        var list = GetCards();
+        if (choice < 1 || choice > list.Count) return false;
+
+        int oldId = list[choice - 1].ID;
+
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            SqlCommand cmd = new SqlCommand(
+                "UPDATE Cards SET CardId=@newId, Name=@name WHERE CardId=@oldId", conn);
+
+            cmd.Parameters.AddWithValue("@newId", id);
+            cmd.Parameters.AddWithValue("@name", name ?? "");
+            cmd.Parameters.AddWithValue("@oldId", oldId);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+        return true;
+    }
+
+    public bool AddCart(string name, decimal price, int quantity)
     {
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
@@ -133,13 +131,13 @@ public class SqlData : IDataService
             cmd.ExecuteNonQuery();
         }
 
-        return "Product added successfully!";
+        return true;
     }
 
-    public string DeleteCart(int choice)
+    public bool DeleteCart(int choice)
     {
         var list = GetCarts();
-        if (choice < 1 || choice > list.Count) return "Invalid selection.";
+        if (choice < 1 || choice > list.Count) return false;
 
         string name = list[choice - 1].Name;
 
@@ -152,13 +150,13 @@ public class SqlData : IDataService
             cmd.ExecuteNonQuery();
         }
 
-        return "Product deleted successfully!";
+        return true;
     }
 
-    public string UpdateCart(int choice, string name, decimal price, int quantity)
+    public bool UpdateCart(int choice, string name, decimal price, int quantity)
     {
         var list = GetCarts();
-        if (choice < 1 || choice > list.Count) return "Invalid selection.";
+        if (choice < 1 || choice > list.Count) return false;
 
         string oldName = list[choice - 1].Name;
 
@@ -176,6 +174,6 @@ public class SqlData : IDataService
             cmd.ExecuteNonQuery();
         }
 
-        return "Product updated successfully!";
+        return true;
     }
 }

@@ -15,7 +15,16 @@ namespace Data_Logic_Layer
         {
             get
             {
-                if (!File.Exists(cardFile)) return new List<Models.Cards>();
+                if (!File.Exists(cardFile))
+                {
+                    List<Models.Cards> defaultCards = new List<Models.Cards>
+                    {
+                        new Models.Cards { Name = "James", ID = 1234 },
+                        new Models.Cards { Name = "John", ID = 12345 }
+                    };
+                    SaveCards(defaultCards);
+                    return defaultCards;
+                }
                 string json = File.ReadAllText(cardFile);
                 return JsonSerializer.Deserialize<List<Models.Cards>>(json);
             }
@@ -25,7 +34,16 @@ namespace Data_Logic_Layer
         {
             get
             {
-                if (!File.Exists(cartFile)) return new List<Models.Carts>();
+                if (!File.Exists(cartFile))
+                {
+                    List<Models.Carts> defaultCarts = new List<Models.Carts>
+                    {
+                        new Models.Carts { Name = "Apple", Price = 15, Quantity = 5 },
+                        new Models.Carts { Name = "Chocolate", Price = 50, Quantity = 10 }
+                    };
+                    SaveCarts(defaultCarts);
+                    return defaultCarts;
+                }
                 string json = File.ReadAllText(cartFile);
                 return JsonSerializer.Deserialize<List<Models.Carts>>(json);
             }
@@ -43,80 +61,68 @@ namespace Data_Logic_Layer
             File.WriteAllText(cartFile, json);
         }
 
-        // Card Methods
-        public string AddCard(int id, string name)
+        public bool AddCard(int id, string name)
         {
             List<Models.Cards> list = cardlist;
             list.Add(new Models.Cards { Name = name, ID = id });
             SaveCards(list);
-            return "Card added successfully!";
+            return true;
         }
 
-        public string DeleteCard(int choice)
+        public bool DeleteCard(int choice)
         {
             List<Models.Cards> list = cardlist;
             if (choice < 1 || choice > list.Count)
-            {
-                return "Invalid selection.";
-            }
+                return false;
             else
             {
-                Models.Cards card = list[choice - 1];
                 list.RemoveAt(choice - 1);
                 SaveCards(list);
-                return $"Card '{card.Name}' deleted successfully!";
+                return true;
             }
         }
 
-        public string UpdateCard(int choice, string newName, int newID)
+        public bool UpdateCard(int choice, string newName, int newID)
         {
             List<Models.Cards> list = cardlist;
             if (choice < 1 || choice > list.Count)
-            {
-                return "Invalid selection.";
-            }
+                return false;
             else
             {
                 Models.Cards card = list[choice - 1];
                 card.Name = newName;
                 card.ID = newID;
                 SaveCards(list);
-                return "Card updated successfully!";
+                return true;
             }
         }
 
-        // Cart Methods
-        public string AddCart(string name, decimal price, int quantity)
+        public bool AddCart(string name, decimal price, int quantity)
         {
             List<Models.Carts> list = cartlist;
             list.Add(new Models.Carts { Name = name, Price = price, Quantity = quantity });
             SaveCarts(list);
-            return "Product added successfully!";
+            return true;
         }
 
-        public string DeleteCart(int choice)
+        public bool DeleteCart(int choice)
         {
             List<Models.Carts> list = cartlist;
             if (choice < 1 || choice > list.Count)
-            {
-                return "Invalid selection.";
-            }
+                return false;
             else
             {
-                Models.Carts cart = list[choice - 1];
                 list.RemoveAt(choice - 1);
                 SaveCarts(list);
-                return $"Product '{cart.Name}' deleted successfully!";
+                return true;
             }
         }
 
-        public string UpdateCart(int choice, string newName, decimal newPrice, int newQuantity)
+        public bool UpdateCart(int choice, string newName, decimal newPrice, int newQuantity)
         {
             List<Models.Carts> list = cartlist;
             if (choice < 1 || choice > list.Count)
-            {
-                return "Invalid selection.";
-            }
+                return false;
             else
             {
                 Models.Carts cart = list[choice - 1];
@@ -124,7 +130,7 @@ namespace Data_Logic_Layer
                 cart.Price = newPrice;
                 cart.Quantity = newQuantity;
                 SaveCarts(list);
-                return "Product updated successfully!";
+                return true;
             }
         }
     }

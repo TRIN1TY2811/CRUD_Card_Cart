@@ -11,10 +11,8 @@ namespace CRUD_Card_Cart
     {
         public static void Main(string[] args)
         {
-
-            IDataService dataService = new SqlData();
+            IDataService dataService = new JsonData();
             JsonDataCaller data = new JsonDataCaller(dataService);
-            CartService cartService = new CartService();
 
             Console.WriteLine("Welcome! \n Would you like to access your Cart or Card? \n 1. Card \n 2. Cart");
             int choice1 = Convert.ToInt32(Console.ReadLine());
@@ -33,7 +31,8 @@ namespace CRUD_Card_Cart
                         int id = Convert.ToInt32(Console.ReadLine());
                         Console.Write("Enter Card Name: ");
                         string name = Console.ReadLine();
-                        Console.WriteLine(data.AddCard(id, name));
+                        if (data.AddCard(id, name))
+                            Console.WriteLine("Card added successfully!");
                     }
                     else
                     {
@@ -56,7 +55,8 @@ namespace CRUD_Card_Cart
                                 int newId = Convert.ToInt32(Console.ReadLine());
                                 Console.Write("Enter Card Name: ");
                                 string newName = Console.ReadLine();
-                                Console.WriteLine(data.AddCard(newId, newName));
+                                if (data.AddCard(newId, newName))
+                                    Console.WriteLine("Card added successfully!");
                                 break;
 
                             case 2:
@@ -66,7 +66,10 @@ namespace CRUD_Card_Cart
                                     Console.WriteLine($"{i + 1}. Name: {data.cardlist[i].Name}, ID: {data.cardlist[i].ID}");
                                 }
                                 int deleteChoice = Convert.ToInt32(Console.ReadLine());
-                                Console.WriteLine(data.DeleteCard(deleteChoice));
+                                if (data.DeleteCard(deleteChoice))
+                                    Console.WriteLine("Card deleted successfully!");
+                                else
+                                    Console.WriteLine("Invalid selection.");
                                 break;
 
                             case 3:
@@ -108,7 +111,10 @@ namespace CRUD_Card_Cart
                                     updatedID = Convert.ToInt32(Console.ReadLine());
                                 }
 
-                                Console.WriteLine(data.UpdateCard(updateChoice, updatedName, updatedID));
+                                if (data.UpdateCard(updateChoice, updatedName, updatedID))
+                                    Console.WriteLine("Card updated successfully!");
+                                else
+                                    Console.WriteLine("Invalid selection.");
                                 break;
 
                             case 4:
@@ -125,6 +131,7 @@ namespace CRUD_Card_Cart
 
             else if (choice1 == 2)
             {
+                CartService cartService = new CartService();
                 bool SystemRun2 = true;
                 while (SystemRun2)
                 {
@@ -139,7 +146,8 @@ namespace CRUD_Card_Cart
                         decimal price = Convert.ToDecimal(Console.ReadLine());
                         Console.Write("Enter Quantity: ");
                         int quantity = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine(data.AddCart(name, price, quantity));
+                        if (data.AddCart(name, price, quantity))
+                            Console.WriteLine("Product added successfully!");
                     }
                     else
                     {
@@ -166,7 +174,8 @@ namespace CRUD_Card_Cart
                                 decimal newPrice = Convert.ToDecimal(Console.ReadLine());
                                 Console.Write("Enter Quantity: ");
                                 int newQuantity = Convert.ToInt32(Console.ReadLine());
-                                Console.WriteLine(data.AddCart(newName, newPrice, newQuantity));
+                                if (data.AddCart(newName, newPrice, newQuantity))
+                                    Console.WriteLine("Product added successfully!");
                                 break;
 
                             case 2:
@@ -176,7 +185,10 @@ namespace CRUD_Card_Cart
                                     Console.WriteLine($"{i + 1}. Name: {data.cartlist[i].Name}, Price: {data.cartlist[i].Price}, Quantity: {data.cartlist[i].Quantity}");
                                 }
                                 int deleteChoice = Convert.ToInt32(Console.ReadLine());
-                                Console.WriteLine(data.DeleteCart(deleteChoice));
+                                if (data.DeleteCart(deleteChoice))
+                                    Console.WriteLine("Product deleted successfully!");
+                                else
+                                    Console.WriteLine("Invalid selection.");
                                 break;
 
                             case 3:
@@ -233,7 +245,10 @@ namespace CRUD_Card_Cart
                                     updatedQuantity = Convert.ToInt32(Console.ReadLine());
                                 }
 
-                                Console.WriteLine(data.UpdateCart(updateChoice, updatedName, updatedPrice, updatedQuantity));
+                                if (data.UpdateCart(updateChoice, updatedName, updatedPrice, updatedQuantity))
+                                    Console.WriteLine("Product updated successfully!");
+                                else
+                                    Console.WriteLine("Invalid selection.");
                                 break;
 
                             case 4:

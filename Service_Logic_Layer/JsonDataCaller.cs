@@ -19,13 +19,13 @@ namespace Business_Logic_Layer
 
 
         // Card Methods
-        public string AddCard(int id, string name) => _dataService.AddCard(id, name);
-        public string DeleteCard(int choice) => _dataService.DeleteCard(choice);
-        public string UpdateCard(int choice, string newName, int newID) => _dataService.UpdateCard(choice, newName, newID);
+        public bool AddCard(int id, string name) => _dataService.AddCard(id, name);
+        public bool DeleteCard(int choice) => _dataService.DeleteCard(choice);
+        public bool UpdateCard(int choice, string newName, int newID) => _dataService.UpdateCard(choice, newName, newID);
 
         // Cart Methods
-        public string AddCart(string name, decimal price, int quantity) => _dataService.AddCart(name, price, quantity);
-        public string DeleteCart(int choice) => _dataService.DeleteCart(choice);
-        public string UpdateCart(int choice, string newName, decimal newPrice, int newQuantity) => _dataService.UpdateCart(choice, newName, newPrice, newQuantity);
+        public bool AddCart(string name, decimal price, int quantity) => _dataService.AddCart(name, price, quantity);
+        public bool DeleteCart(int choice) => _dataService.DeleteCart(choice);
+        public bool UpdateCart(int choice, string newName, decimal newPrice, int newQuantity) => _dataService.UpdateCart(choice, newName, newPrice, newQuantity);
     }
 }
