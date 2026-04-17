@@ -11,7 +11,7 @@ namespace CRUD_Card_Cart
     {
         public static void Main(string[] args)
         {
-            IDataService dataService = new JsonData();
+            IDataService dataService = new SqlData();
             JsonDataCaller data = new JsonDataCaller(dataService);
 
             Console.WriteLine("Welcome! \n Would you like to access your Cart or Card? \n 1. Card \n 2. Cart");
