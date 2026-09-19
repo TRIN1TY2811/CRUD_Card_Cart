@@ -6,8 +6,9 @@ using Model_Layer;
 
 public class SqlData : IDataService
 {
-    string connectionString =
-    "Data Source=localhost\\SQLEXPRESS01;Initial Catalog=CRUD_Cart_Card_DB;Integrated Security=True;TrustServerCertificate=True;";
+    
+    private readonly string connectionString =
+        @"Server=localhost\SQLEXPRESS01;Database=CRUD_Cart_Card_DB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
 
     public List<Models.Cards> cardlist => GetCards(); 
     public List<Models.Carts> cartlist => GetCarts();
@@ -19,16 +20,20 @@ public class SqlData : IDataService
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Cards", conn);
-            conn.Open();
-            var reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+            conn.Open();
+            // FIX 2: Removed the broken, accidentally pasted variable on this line
+
+            using (var reader = cmd.ExecuteReader()) // Added using statement for safe memory disposal
             {
-                list.Add(new Models.Cards
+                while (reader.Read())
                 {
-                    ID = Convert.ToInt32(reader["CardId"]),
-                    Name = reader["Name"].ToString() ?? ""
-                });
+                    list.Add(new Models.Cards
+                    {
+                        ID = Convert.ToInt32(reader["CardId"]),
+                        Name = reader["Name"].ToString() ?? ""
+                    });
+                }
             }
         }
 
@@ -42,17 +47,20 @@ public class SqlData : IDataService
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Carts", conn);
-            conn.Open();
-            var reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+            conn.Open();
+
+            using (var reader = cmd.ExecuteReader())
             {
-                list.Add(new Models.Carts
+                while (reader.Read())
                 {
-                    Name = reader["Name"].ToString() ?? "",
-                    Price = Convert.ToDecimal(reader["Price"]),
-                    Quantity = Convert.ToInt32(reader["Quantity"])
-                });
+                    list.Add(new Models.Carts
+                    {
+                        Name = reader["Name"].ToString() ?? "",
+                        Price = Convert.ToDecimal(reader["Price"]),
+                        Quantity = Convert.ToInt32(reader["Quantity"])
+                    });
+                }
             }
         }
 
