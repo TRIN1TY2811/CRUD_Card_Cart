@@ -22,9 +22,9 @@ public class SqlData : IDataService
             SqlCommand cmd = new SqlCommand("SELECT * FROM Cards", conn);
 
             conn.Open();
-            // FIX 2: Removed the broken, accidentally pasted variable on this line
+            
 
-            using (var reader = cmd.ExecuteReader()) // Added using statement for safe memory disposal
+            using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
