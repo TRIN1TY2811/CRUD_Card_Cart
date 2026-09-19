@@ -9,7 +9,7 @@ public class SqlData : IDataService
     string connectionString =
     "Data Source=localhost\\SQLEXPRESS01;Initial Catalog=CRUD_Cart_Card_DB;Integrated Security=True;TrustServerCertificate=True;";
 
-    public List<Models.Cards> cardlist => GetCards();
+    public List<Models.Cards> cardlist => GetCards(); 
     public List<Models.Carts> cartlist => GetCarts();
 
     public List<Models.Cards> GetCards()
@@ -112,7 +112,7 @@ public class SqlData : IDataService
             conn.Open();
             cmd.ExecuteNonQuery();
         }
-
+        
         return true;
     }
 

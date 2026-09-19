@@ -1,5 +1,7 @@
-﻿using System;
+using System;
+using System.IO;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Model_Layer;
 using Data_Logic_Layer;
 using Service_Logic_Layer;
@@ -11,8 +13,22 @@ namespace CRUD_Card_Cart
     {
         public static void Main(string[] args)
         {
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            EmailService emailService = new EmailService(
+                host: config["Mailtrap:Host"] ?? "sandbox.smtp.mailtrap.io",
+                port: int.TryParse(config["Mailtrap:Port"], out int p) ? p : 2525,
+                username: config["Mailtrap:Username"] ?? "070df89028895b",
+                password: config["Mailtrap:Password"] ?? "",
+                fromEmail: config["Mailtrap:FromEmail"] ?? "notifications@crudcartcard.com",
+                recipientEmail: config["Mailtrap:RecipientEmail"] ?? "admin@crudcartcard.com"
+            );
+
             IDataService dataService = new SqlData();
-            JsonDataCaller data = new JsonDataCaller(dataService);
+            JsonDataCaller data = new JsonDataCaller(dataService, emailService);
 
             Console.WriteLine("Welcome! \n Would you like to access your Cart or Card? \n 1. Card \n 2. Cart");
             int choice1 = Convert.ToInt32(Console.ReadLine());
